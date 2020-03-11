@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">253381604380-dhh8bd8o9b374843fj459re3ouv9h239.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://siriustrackeragente.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">253381604380</string>
+    <string name="google_api_key" translatable="false">AIzaSyBcbvsBj86cdBcgU1dGvyVsq87_xb7BPww</string>
+    <string name="google_app_id" translatable="false">1:253381604380:android:58a6428fc8e10f4c65dbd9</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBcbvsBj86cdBcgU1dGvyVsq87_xb7BPww</string>
+    <string name="google_storage_bucket" translatable="false">siriustrackeragente.appspot.com</string>
+    <string name="project_id" translatable="false">siriustrackeragente</string>
+</resources>

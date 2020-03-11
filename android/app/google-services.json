@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "253381604380",
+    "firebase_url": "https://siriustrackeragente.firebaseio.com",
+    "project_id": "siriustrackeragente",
+    "storage_bucket": "siriustrackeragente.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253381604380:android:58a6428fc8e10f4c65dbd9",
+        "android_client_info": {
+          "package_name": "com.example.siriustrackeragente"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "253381604380-pi3f1js4phvg862ividsan3c1balijlb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.siriustrackeragente",
+            "certificate_hash": "f036e6bf73d7bba81fec7c825631ea806ba1561c"
+          }
+        },
+        {
+          "client_id": "253381604380-dhh8bd8o9b374843fj459re3ouv9h239.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcbvsBj86cdBcgU1dGvyVsq87_xb7BPww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "253381604380-dhh8bd8o9b374843fj459re3ouv9h239.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
