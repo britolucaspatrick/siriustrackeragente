@@ -27,17 +27,22 @@ class _MyAccountState extends State<MyAccount> {
   FirebaseUser user;
   User _userEmail;
   final GlobalKey<FormFieldState<String>> _passwordFieldKey =
-      new GlobalKey<FormFieldState<String>>();
+  new GlobalKey<FormFieldState<String>>();
   String _password;
   var _scaffoldKey;
   TextEditingController cardNumber =
-      new MaskedTextController(mask: '0000 0000 0000 0000');
+  new MaskedTextController(mask: '0000 0000 0000 0000');
   TextEditingController expiryDate = new MaskedTextController(mask: '00/00');
   TextEditingController cardHolderName = new TextEditingController();
   TextEditingController cvvCode = new TextEditingController();
+
+  TextEditingController banco = new TextEditingController();
+  TextEditingController agencia = new TextEditingController();
+  TextEditingController conta = new TextEditingController();
+
   bool isCvvFocused = false;
   bool isLoading = false;
-
+  String st_cnh = "";
   @override
   void initState() {
     super.initState();
@@ -93,163 +98,175 @@ class _MyAccountState extends State<MyAccount> {
       ),
       body: isLoading
           ? Center(
-              child: CircularProgressIndicator(),
-            )
+        child: CircularProgressIndicator(),
+      )
           : Form(
-              key: _formKey,
-              child: ListView(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15.0),
-                        child: Text(
-                          "Minha Conta",
-                          softWrap: true,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: Colors.purple,
-                            decoration: TextDecoration.none,
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Image(
-                          image: AssetImage("assets/images/profile.png"),
-                          height: 100,
-                          width: 100,
-                        ),
-                      )
-                    ],
+        key: _formKey,
+        child: ListView(
+          padding: EdgeInsets.only(left: 10, right: 10),
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Text(
+                    "Minha Conta",
+                    softWrap: true,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Colors.purple,
+                      decoration: TextDecoration.none,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                  SizedBox(height: 10.0),
-                  TextFormField(
-                    keyboardType: TextInputType.text,
-                    textCapitalization: TextCapitalization.characters,
-                    decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
-                        filled: true,
-                        icon: Icon(Icons.person),
-                        labelText: "Nome"),
-                    controller: _name,
-                    enabled: user?.providerId == 'google.com',
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: Image(
+                    image: AssetImage("assets/images/profile.png"),
+                    height: 100,
+                    width: 100,
                   ),
-                  SizedBox(height: 12.0),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        filled: true,
-                        icon: Icon(Icons.email),
-                        labelText: "E-mail"),
-                    controller: _email,
-                    enabled: false,
-                  ),
-                  SizedBox(height: 12.0),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        filled: true,
-                        icon: Icon(Icons.phone),
-                        labelText: "Telefone",
-                        prefixText: "+55"),
-                    keyboardType: TextInputType.phone,
-                    controller: _number,
-                  ),
-                  SizedBox(height: 12.0),
-                  TextFormField(
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        filled: true,
-                        icon: Icon(Icons.call_to_action),
-                        labelText: "CPF"),
-                    controller: _cpf,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, top: 30),
+                )
+              ],
+            ),
+            SizedBox(height: 10.0),
+            TextFormField(
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.characters,
+              decoration: InputDecoration(
+                  border: UnderlineInputBorder(),
+                  filled: true,
+                  icon: Icon(Icons.person),
+                  labelText: "Nome"),
+              controller: _name,
+              enabled: user?.providerId == 'google.com',
+            ),
+            SizedBox(height: 12.0),
+            TextFormField(
+              decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  filled: true,
+                  icon: Icon(Icons.email),
+                  labelText: "E-mail"),
+              controller: _email,
+              enabled: false,
+            ),
+            SizedBox(height: 12.0),
+            TextFormField(
+              decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  filled: true,
+                  icon: Icon(Icons.phone),
+                  labelText: "Telefone",
+                  prefixText: "+55"),
+              keyboardType: TextInputType.phone,
+              controller: _number,
+              validator: (value){
+                if (value.length < 8){
+                  return "Número inválido";
+                }
+              },
+            ),
+            SizedBox(height: 12.0),
+            TextFormField(
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  filled: true,
+                  icon: Icon(Icons.call_to_action),
+                  labelText: "CPF"),
+              controller: _cpf,
+              validator: (value){
+                if (value.length != 14){
+                  return "Número inválido";
+                }
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15.0, top: 30),
+              child: Text(
+                "CNH",
+                softWrap: true,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: Color.fromRGBO(120, 193, 190, 1),
+                  decoration: TextDecoration.none,
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
                     child: Text(
-                      "CNH",
-                      softWrap: true,
-                      textAlign: TextAlign.left,
+                      "Foto segurando CNH. Deve aparecer nitidamente seu rosto físico, foto do documento, cpf, rg e número registro.",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 5,
                       style: TextStyle(
-                        color: Color.fromRGBO(120, 193, 190, 1),
+                        color: Colors.black45,
                         decoration: TextDecoration.none,
-                        fontSize: 24.0,
+                        fontSize: 14.0,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
+                    padding: EdgeInsets.only(left: 10),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          child: Text(
-                            "Foto segurando CNH. Deve aparecer nitidamente seu rosto físico, foto do documento, cpf, rg e número registro.",
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 5,
-                            style: TextStyle(
-                              color: Colors.black45,
-                              decoration: TextDecoration.none,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          padding: EdgeInsets.only(left: 10),
-                        ),
-                      ),
-                      _userEmail?.st_cnh == null || _userEmail?.st_cnh != 1
-                          ? GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => ImageCapture()));
-                                setState(() {
-                                  _userEmail.st_cnh = '1';
-                                });
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: Image(
-                                  image: AssetImage("assets/images/cnh.png"),
-                                  fit: BoxFit.contain,
-                                  height: 100,
-                                  width: 100,
-                                ),
-                              ),
-                            )
-                          : _scaffoldKey.currentState.showSnackBar(new SnackBar(
-                              duration: new Duration(seconds: 4),
-                              content: new Row(
-                                children: <Widget>[
-                                  new CircularProgressIndicator(),
-                                  new Text("Foto em análise...")
-                                ],
-                              ),
-                            ))
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, top: 30),
-                    child: Text(
-                      "Cartão crédito",
-                      softWrap: true,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Color.fromRGBO(28, 70, 125, 1),
-                        decoration: TextDecoration.none,
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.w700,
-                      ),
+                ),
+                _userEmail?.st_cnh == null || _userEmail?.st_cnh != 1
+                    ? GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => ImageCapture()));
+                    setState(() {
+                      st_cnh = '1';
+                    });
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Image(
+                      image: AssetImage("assets/images/cnh.png"),
+                      fit: BoxFit.contain,
+                      height: 100,
+                      width: 100,
                     ),
                   ),
-                  CreditCardWidget(
+                )
+                    : _scaffoldKey.currentState.showSnackBar(new SnackBar(
+                  duration: new Duration(seconds: 4),
+                  content: new Row(
+                    children: <Widget>[
+                      new CircularProgressIndicator(),
+                      new Text("Foto em análise...")
+                    ],
+                  ),
+                ))
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15.0, top: 30),
+              child: Text(
+                "Banco para recebimento",
+                softWrap: true,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: Color.fromRGBO(28, 70, 125, 1),
+                  decoration: TextDecoration.none,
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+
+
+            /*CreditCardWidget(
                     cardNumber: cardNumber.text,
                     expiryDate: expiryDate.text,
                     cardHolderName: cardHolderName.text,
@@ -270,7 +287,7 @@ class _MyAccountState extends State<MyAccount> {
                       keyboardType: TextInputType.number,
                       validator: (value){
                         if (value == null || value.isEmpty)
-                          return "Necessário informar número";
+                          return "Necessário informar";
                         else if (value.length != 19)
                           return "Deve conter 16 caracteres.";
                       },
@@ -292,7 +309,7 @@ class _MyAccountState extends State<MyAccount> {
                             keyboardType: TextInputType.number,
                             validator: (value){
                               if (value == null || value.isEmpty)
-                                return "Necessário informar dt. vencimento";
+                                return "Necessário informar";
                               else if (value.length != 5)
                                 return "Deve conter 5 caracteres";
                             },
@@ -314,7 +331,7 @@ class _MyAccountState extends State<MyAccount> {
                             maxLength: 3,
                             validator: (value){
                               if (value == null || value.isEmpty)
-                                return "Necessário informar cód. segurança";
+                                return "Necessário informar";
                               else if (value.length != 3)
                                 return "Deve conter 3 caracteres";
                             },
@@ -341,53 +358,112 @@ class _MyAccountState extends State<MyAccount> {
                       controller: cardHolderName,
                       validator: (value){
                         if (value == null || value.isEmpty)
-                          return "Necessário informar nome";
+                          return "Necessário informar";
                         else if (value.length < 3)
                           return "Deve conter mínimo de 3 caracteres";
                       },
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: RaisedButton(
-                      onPressed: () {
-                        if (_formKey.currentState.validate() && validarCNH(_userEmail)) {
-                          Auth.addUser(new User(
-                              userID: user?.uid,
-                              firstName: user?.providerId == 'google.com'
-                                  ? user?.displayName
-                                  : _name.text,
-                              email: user?.email,
-                              number: _number.text,
-                              cpf: _cpf.text,
-                              logradouro: _logradouro.text,
-                              bairro: _bairro.text,
-                              cidade: _cidade.text,
-                              complement: _complemento.text,
-                              numero: _numero.text,
-                              cep: _cep.text,
-                              st_cnh: _userEmail.st_cnh == null
-                                  ? '0'
-                                  : _userEmail.st_cnh == '1'
-                                      ? '1'
-                                      : _userEmail.st_cnh == '2'
-                                          ? '2'
-                                          : _userEmail.st_cnh == '3'
-                                              ? '3'
-                                              : '0',
-                              cardNumber: cardNumber.text,
-                              expiryDate: expiryDate.text,
-                              cardHolderName: cardHolderName.text,
-                              cvvCode: cvvCode.text));
-                          Alert.showAlertDialog(context, "Salvo com sucesso.");
-                        }
-                      },
-                      child: Text('Salvar'),
-                    ),
-                  ),
-                ],
+                  ),*/
+
+            //CONTA BANCÁRIA PARA RECEBIMENTO
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                    labelText: "Código banco"),
+                controller: banco,
+                keyboardType: TextInputType.number,
+                validator: (value){
+                  if (value == null || value.isEmpty)
+                    return "Necessário informar";
+                  else if (value.length < 3)
+                    return "Deve conter mínimo de 3 caracteres";
+                },
               ),
             ),
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                    labelText: "Agéncia"),
+                controller: agencia,
+                keyboardType: TextInputType.number,
+                validator: (value){
+                  if (value == null || value.isEmpty)
+                    return "Necessário informar";
+                  else if (value.length < 3)
+                    return "Deve conter mínimo de 3 caracteres";
+                },
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                    labelText: "Conta"),
+                controller: conta,
+                keyboardType: TextInputType.number,
+                validator: (value){
+                  if (value == null || value.isEmpty)
+                    return "Necessário informar";
+                  else if (value.length < 3)
+                    return "Deve conter mínimo de 3 caracteres";
+                },
+              ),
+            ),
+
+
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: RaisedButton(
+                onPressed: () {
+                  if (_formKey.currentState.validate() && validarCNH(st_cnh)) {
+                    Auth.addUser(new User(
+                        userID: user?.uid,
+                        firstName: user?.providerId == 'google.com'
+                            ? user?.displayName
+                            : _name.text,
+                        email: user?.email,
+                        number: _number.text,
+                        cpf: _cpf.text,
+                        logradouro: _logradouro.text,
+                        bairro: _bairro.text,
+                        cidade: _cidade.text,
+                        complement: _complemento.text,
+                        numero: _numero.text,
+                        cep: _cep.text,
+                        st_cnh: st_cnh == null
+                            ? '0'
+                            : st_cnh == '1'
+                            ? '1'
+                            : st_cnh == '2'
+                            ? '2'
+                            : st_cnh == '3'
+                            ? '3'
+                            : '0',
+                        cardNumber: cardNumber.text,
+                        expiryDate: expiryDate.text,
+                        cardHolderName: cardHolderName.text,
+                        cvvCode: cvvCode.text,
+                        conta: conta.text,
+                        agencia: agencia.text,
+                        banco: banco.text)
+                    );
+                    Alert.showAlertDialog(context, "Salvo com sucesso.");
+                  }
+                },
+                child: Text('Salvar'),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -423,9 +499,9 @@ class _MyAccountState extends State<MyAccount> {
     return "";
   }
 
-  bool validarCNH(User email) {
-    if (email == null || email.st_cnh == null || email.st_cnh.isEmpty){
-        Alert.showAlertDialog(context, 'Obrigatório informar CNH');
+  bool validarCNH(String st_cnh) {
+    if (st_cnh == null || st_cnh.isEmpty){
+      Alert.showAlertDialog(context, 'Obrigatório informar CNH');
       return false;
     }
 

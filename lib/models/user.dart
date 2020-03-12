@@ -20,6 +20,9 @@ class User {
   String expiryDate;
   String cardHolderName;
   String cvvCode;
+  String banco;
+  String agencia;
+  String conta;
 
   User(
       {this.bairro,
@@ -39,7 +42,10 @@ class User {
       this.cardNumber,
       this.expiryDate,
       this.cardHolderName,
-      this.cvvCode});
+      this.cvvCode,
+      this.banco,
+      this.agencia,
+      this.conta});
 
   Map<String, Object> toJson() {
     return {
@@ -60,6 +66,9 @@ class User {
       'expiryDate': expiryDate,
       'cardHolderName': cardHolderName,
       'cvvCode': cvvCode,
+      'banco': banco,
+      'conta': conta,
+      'agencia': agencia,
     };
   }
 
@@ -81,6 +90,9 @@ class User {
       expiryDate: doc['expiryDate'],
       cardHolderName: doc['cardHolderName'],
       cvvCode: doc['cvvCode'],
+      banco: doc['banco'],
+      agencia: doc['agencia'],
+      conta: doc['conta'],
     );
     return user;
   }
