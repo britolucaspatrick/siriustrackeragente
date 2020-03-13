@@ -11,7 +11,10 @@
   <component name="ChangeListManager">
     <list default="true" id="306e6788-8735-4852-8f02-514744d64b59" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/business/auth.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/business/auth.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/models/user.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/user.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/configuration.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/configuration.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/cracha.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/cracha.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/myaccount.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/myaccount.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,7 +46,7 @@
   <component name="PropertiesComponent">
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Documents/GitHub/sirius_tracker_contratante" />
     <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />

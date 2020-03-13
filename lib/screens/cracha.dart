@@ -88,7 +88,6 @@ class _CrachaState extends State<Cracha> {
                                 decoration: TextDecoration.none,
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.w700,
-                                fontFamily: "OpenSans",
                                 color: Colors.black38)),
                         padding: EdgeInsets.only(left: 10),
                       ),
@@ -125,7 +124,6 @@ class _CrachaState extends State<Cracha> {
                                 decoration: TextDecoration.none,
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.w700,
-                                fontFamily: "OpenSans",
                                 color: Colors.black38)),
                       ),
                     ),
@@ -161,7 +159,7 @@ class _CrachaState extends State<Cracha> {
     });
 
     await Firestore.instance
-        .collection("partner")
+        .collection("parther")
         //.where("Service", isEqualTo: "/servicesByUser/${documentID}")
         .getDocuments()
         .then((querySnapshot) {

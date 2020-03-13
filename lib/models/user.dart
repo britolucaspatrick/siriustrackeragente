@@ -14,8 +14,7 @@ class User {
   final String providerId;
   final String number;
   final String numero;
-  String
-      st_cnh; //0 - Aguardando envio  1 - Enviada 2 - Imagem inválida 3 - Imagem válida
+  String st_cnh; //0 - Aguardando envio  1 - Enviada 2 - Imagem inválida 3 - Imagem válida
   String cardNumber;
   String expiryDate;
   String cardHolderName;

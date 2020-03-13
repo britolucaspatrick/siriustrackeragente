@@ -7,6 +7,12 @@ import 'package:siriustrackeragente/models/user.dart';
 enum authProblems { UserNotFound, PasswordNotValid, NetworkError, UnknownError }
 
 class Auth {
+  static Future<void> resetPassword() async {
+    getCurrentFirebaseUser().then((value){
+      return FirebaseAuth.instance.sendPasswordResetEmail(email: value.email);
+    });
+  }
+
   static Future<GoogleSignInAccount> signOutGoogle() async {
     await GoogleSignIn().signOut();
   }
@@ -33,6 +39,7 @@ class Auth {
   }
 
   static void addUser(User user) async {
+    print(user.userID);
     checkUserExist(user.userID).then((value) {
       if (!value) {
         Firestore.instance

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:siriustrackeragente/business/auth.dart';
+import 'package:siriustrackeragente/widgets/alert.dart';
 
 class Configuration extends StatefulWidget {
   @override
@@ -101,7 +103,25 @@ class _ConfigurationState extends State<Configuration> {
               ],
             ),
 
+            Divider(height: 15, indent: 15, endIndent: 15,),
+
+            GestureDetector(
+              child: Text("Solicitar alteração da senha",
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.blue,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              onTap: (){
+                Alert.showAlertDialog(context, "Enviamos um e-mail para realizar a alteração.");
+                Auth.resetPassword();
+              },
+            )
+
           ],
-        ));
+        )
+    );
   }
 }

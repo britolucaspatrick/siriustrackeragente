@@ -29,7 +29,7 @@ class _MyAccountState extends State<MyAccount> {
   final GlobalKey<FormFieldState<String>> _passwordFieldKey =
   new GlobalKey<FormFieldState<String>>();
   String _password;
-  var _scaffoldKey;
+  var _scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController cardNumber =
   new MaskedTextController(mask: '0000 0000 0000 0000');
   TextEditingController expiryDate = new MaskedTextController(mask: '00/00');
@@ -42,7 +42,8 @@ class _MyAccountState extends State<MyAccount> {
 
   bool isCvvFocused = false;
   bool isLoading = false;
-  String st_cnh = "";
+  String st_cnh = "0";
+
   @override
   void initState() {
     super.initState();
@@ -50,6 +51,10 @@ class _MyAccountState extends State<MyAccount> {
       isLoading = false;
     });
     Auth.getCurrentFirebaseUser().then((v) {
+      setState(() {
+        user = v;
+      });
+
       Stream<User> userEmail = Auth.getUser(v.uid);
       if (userEmail.isEmpty != null) {
         _name.text = v?.displayName;
@@ -58,7 +63,6 @@ class _MyAccountState extends State<MyAccount> {
       userEmail.forEach((userEmail) {
         _userEmail = userEmail;
         setState(() {
-          user = v;
           _name.text = userEmail?.firstName;
           _email.text = userEmail?.email;
           _number.text = userEmail?.number;
@@ -74,6 +78,12 @@ class _MyAccountState extends State<MyAccount> {
           expiryDate.text = userEmail?.expiryDate;
           cardHolderName.text = userEmail?.cardHolderName;
           cvvCode.text = userEmail?.cvvCode;
+
+          banco.text = userEmail?.banco;
+          agencia.text = userEmail?.agencia;
+          conta.text = userEmail?.conta;
+
+          this.st_cnh = userEmail?.st_cnh;
 
           isLoading = false;
 
@@ -218,16 +228,39 @@ class _MyAccountState extends State<MyAccount> {
                     padding: EdgeInsets.only(left: 10),
                   ),
                 ),
-                _userEmail?.st_cnh == null || _userEmail?.st_cnh != 1
-                    ? GestureDetector(
+                GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => ImageCapture()));
-                    setState(() {
-                      st_cnh = '1';
-                    });
+                    st_cnh == "0"
+                    ?
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => ImageCapture()))
+
+                    : st_cnh == "1" ?
+                        _scaffoldKey.currentState.showSnackBar(
+                          new SnackBar(
+                          duration: new Duration(seconds: 4),
+                          content: new Row(
+                            children: <Widget>[
+                                Container(
+                                  child: CircularProgressIndicator(backgroundColor: Colors.white,),
+                                  width: 25,
+                                  height: 25,
+                                ),
+                                SizedBox(width: 15, height: 15,),
+                                Text("Você já enviou a foto, estamos analisando...", )
+                              ],
+                            ),
+                          )
+                        )
+                    : _scaffoldKey.currentState.showSnackBar(
+                      new SnackBar(
+                        duration: new Duration(seconds: 4),
+                        content: new Row(
+                          children: <Widget>[
+                            new Text("Foto aceita com sucesso")
+                          ],
+                        ),
+                      )
+                    );
                   },
                   child: Padding(
                     padding: EdgeInsets.only(right: 10),
@@ -239,15 +272,7 @@ class _MyAccountState extends State<MyAccount> {
                     ),
                   ),
                 )
-                    : _scaffoldKey.currentState.showSnackBar(new SnackBar(
-                  duration: new Duration(seconds: 4),
-                  content: new Row(
-                    children: <Widget>[
-                      new CircularProgressIndicator(),
-                      new Text("Foto em análise...")
-                    ],
-                  ),
-                ))
+
               ],
             ),
             Padding(
@@ -424,6 +449,7 @@ class _MyAccountState extends State<MyAccount> {
               child: RaisedButton(
                 onPressed: () {
                   if (_formKey.currentState.validate() && validarCNH(st_cnh)) {
+                    print(user?.uid);
                     Auth.addUser(new User(
                         userID: user?.uid,
                         firstName: user?.providerId == 'google.com'
