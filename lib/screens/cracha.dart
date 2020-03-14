@@ -159,7 +159,7 @@ class _CrachaState extends State<Cracha> {
     });
 
     await Firestore.instance
-        .collection("parther")
+        .collection("partner")
         //.where("Service", isEqualTo: "/servicesByUser/${documentID}")
         .getDocuments()
         .then((querySnapshot) {

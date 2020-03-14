@@ -1,4 +1,4 @@
-#Fri Mar 13 16:07:12 BRT 2020
+#Sat Mar 14 19:34:13 BRT 2020
 base.10=C\:\\Users\\patri\\AndroidStudioProjects\\siriustrackeragente\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\out\\classes_2.dex
 base.9=C\:\\Users\\patri\\AndroidStudioProjects\\siriustrackeragente\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\out\\classes_14.dex
 base.8=C\:\\Users\\patri\\AndroidStudioProjects\\siriustrackeragente\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\out\\classes_13.dex
